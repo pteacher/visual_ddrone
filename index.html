@@ -151,6 +151,12 @@ G1 X0 Y0
             // Connection callback
             console.log('Connected');
         });
+      
+        var cmd = new ROSLIB.Topic({
+            ros: ros,
+            name: '/paint',
+            messageType: 'std_msgs/String'
+        });
 
         // Declare get_telemetry service client
         var getTelemetry = new ROSLIB.Service({ ros: ros, name : '/get_telemetry', serviceType : 'clover/GetTelemetry' });
@@ -173,9 +179,13 @@ G1 X0 Y0
         var ledService = new ROSLIB.Service({ ros: ros, name : '/led/set_effect', serviceType : 'clover/Led/SetEffect' });
 
         function rainbow() {
+          /*
           ledService.callService(new ROSLIB.ServiceRequest({effect: 'fade', r: 0, g: 0, b: 255}), function(result) {
               console.log('LED RAINBOW!!!' + JSON.stringify(result));
           });
+          */
+          var mess = new ROSLIB.Message({data: "hello"});
+          cmd.publish(mess);
         }
 
         var flightService = new ROSLIB.Service({ ros: ros, name : '/navigate', serviceType : 'clover/Navigate' });
